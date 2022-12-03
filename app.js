@@ -63,4 +63,29 @@ document.addEventListener('DOMContentLoaded', () => {
             squares[currentPosition + index].classList.remove('tetromino');
         })
     }
+
+    // make the Tetromino move down every second 
+    timerId = setInterval(moveDown, 1000); 
+
+    // move down function 
+    function moveDown() {
+        undraw()
+        currentPosition += width;
+        draw() 
+        freeze()
+    }
+
+    // freeze function 
+    // starting new falling tetris piece when current tetris piece is index plus whole width 
+    // i.e. when current tetris piece moves next space down
+    function freeze() {
+        if (current.some(index => squares[currentPosition + index + width].classList.contains('taken'))) {
+            current.forEach(index => squares[currentPosition + index].classList.add('taken'));
+            // start a new falling tetris piece 
+            random = Math.floor(Math.random() * theTetrominoes.length); 
+            current = theTetrominoes[random][currentRotation];
+            currentPosition = 4;
+            draw()
+        }
+    }
 })
