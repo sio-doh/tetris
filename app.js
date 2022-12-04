@@ -70,10 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // assign functions to keyCodes 
     function control(e) {
-        if (e.keyCode === 37) {
+        if (e.keyCode === 37) { 
+            // tetris piece moves left
             moveLeft()
         } else if (e.keyCode === 38) {
-            // tetris piece rotates with 'up' keycode 
+            // tetris piece rotates when pressing 'up' keycode 
             rotate()
         } else if (e.keyCode === 39) {
             // tetris piece moves right 
@@ -126,6 +127,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
             currentPosition -= 1;
         }
+        draw()
+    }
+
+    // rotate the tetromino 
+    function rotate() {
+        undraw() 
+        currentRotation++;
+        if (currentRotation === current.length) {
+            currentRotation = 0;
+        } 
+        current = theTetrominoes[random][currentRotation];
         draw()
     }
 })
