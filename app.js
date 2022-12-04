@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector('.grid'); 
     let squares = Array.from(document.querySelectorAll('.grid div')); 
-    const ScoreDisplay = document.querySelector('#score'); 
-    const StartBtn = document.querySelector('#start-button');
+    const scoreDisplay = document.querySelector('#score'); 
+    const startBtn = document.querySelector('#start-button');
     const width = 10; 
+    let timerId; 
 
     // The Tetrominoes
     const lTetromino = [
@@ -67,6 +68,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // make the Tetromino move down every second 
     timerId = setInterval(moveDown, 1000); 
 
+    // assign functions to keyCodes 
+    function control(e) {
+        if (e.keyCode === 37) {
+            moveLeft()
+        } else if (e.keyCode === 38) {
+            // tetris piece rotates with 'up' keycode 
+            rotate()
+        } else if (e.keyCode === 39) {
+            // tetris piece moves right 
+            moveRight()
+        } else if (e.keyCode === 40) {
+            // tetris pieces moves down faster with 'down' keycode 
+            moveDown()
+        } 
+    }
+    document.addEventListener('keyup', control)
+
     // move down function 
     function moveDown() {
         undraw()
@@ -93,9 +111,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function moveLeft() {
         undraw()
         const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0); 
-        if (!isAtLeftEdge) currentPosition -= 1;
+        if(!isAtLeftEdge) currentPosition -= 1;
         if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
             currentPosition += 1;
+        }
+        draw()
+    }
+
+    // move the tetromino right, unless at the edge or a blockage exists 
+    function moveRight() {
+        undraw()
+        const isAtRightEdge = current.some(index => (currentPosition + index) % width === width - 1);
+        if(!isAtRightEdge) currentPosition += 1;
+        if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+            currentPosition -= 1;
         }
         draw()
     }
