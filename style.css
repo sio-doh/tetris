@@ -26,4 +26,9 @@
     display: flex;
     flex-wrap: wrap;
     background-color: rgb(0, 255, 0);
+} 
+
+.mini-grid div {
+    height: 20px; 
+    width: 20px;
 }
