@@ -168,4 +168,16 @@ document.addEventListener('DOMContentLoaded', () => {
             displaySquares[displayIndex + index].classList.add('tetromino');
         })
     }
+
+    // add functionality to button 
+    startBtn.addEventListener('click', () => {
+        if (timerId) {
+            clearInterval(timerId)
+            timerId = null;
+        } else {
+            timerId = setInterval(moveDown, 1000); 
+            nextRandom = Math.floor(Math.random() * theTetrominoes.length); 
+            displayShape()
+        }
+    })
 })
